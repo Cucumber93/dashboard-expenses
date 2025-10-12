@@ -12,5 +12,5 @@ export const BalanceService = {
             console.error("Error fetching balance:", error);
             throw error;
         }
-    }
+    } 
 }
