@@ -86,7 +86,6 @@ const StackedBarChart: React.FC = () => {
 
   return (
     <div>
-      <h2 className="text-xl font-semibold mb-4">Stacked Bar Chart</h2>
       <ReactApexChart
         options={options}
         series={series}

@@ -1,16 +1,41 @@
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import ReactApexChart from "react-apexcharts";
 import type { ApexOptions } from "apexcharts";
+import type { ITrendExpenses } from "../../interface/trend-expenses";
 
-const PieChart: React.FC = () => {
-  const series = [44, 55, 13, 43, 22];
+interface IPieChart {
+  data: ITrendExpenses[];
+}
 
+const PieChart: React.FC<IPieChart> = ({ data }) => {
+
+  // ✅ รวมยอด totalExpense ต่อ category
+  const { labels, series } = useMemo(() => {
+    const totalByCategory: Record<string, number> = {};
+
+    data.forEach((item) => {
+      const category = item.category ?? "Unknown";
+      if (!totalByCategory[category]) totalByCategory[category] = 0;
+      totalByCategory[category] += Number(item.totalExpense);
+    });
+
+    const labels = Object.keys(totalByCategory);
+    const series = Object.values(totalByCategory);
+
+    return { labels, series };
+  }, [data]);
+
+  useEffect(() => {
+    console.log("📊 Pie Data:", { labels, series });
+  }, [labels, series]);
+
+  // ✅ Chart options
   const options: ApexOptions = {
     chart: {
-      width: 380,
-      type: "pie", // ✅ TypeScript knows this is valid
+      type: "pie",
+      width: "100%",
     },
-    labels: ["Team A", "Team B", "Team C", "Team D", "Team E"],
+    labels,
     colors: ["#8C7CF0", "#FF9CA3", "#49CFE0", "#FFD966", "#A2D8FF"],
     legend: {
       position: "right",
@@ -19,35 +44,37 @@ const PieChart: React.FC = () => {
     },
     dataLabels: {
       enabled: true,
-      formatter: (val:number) => `${val.toFixed(2)}%`,
+      formatter: (val: number) => `${val.toFixed(2)}%`,
       style: {
         fontSize: "13px",
-        colors: ["#555"],
+        colors: ["#fff"],  
       },
     },
     tooltip: {
       y: {
-        formatter: (value) => `${value}`,
+        formatter: (value) => `${value} บาท`,
       },
     },
     responsive: [
       {
-        breakpoint: 480,
+        breakpoint: 768,
         options: {
-          chart: {
-            width: 250,
-          },
-          legend: {
-            position: "bottom",
-          },
+          chart: { width: "100%" },
+          legend: { position: "bottom" },
         },
       },
     ],
   };
 
   return (
-    <div className="flex justify-center items-center">
-      <ReactApexChart options={options} series={series} type="pie" width={380} />
+    <div className="flex justify-center items-center w-full h-full">
+      <ReactApexChart
+        options={options}
+        series={series}
+        type="pie"
+        width="190%"
+        height="190%"
+      />
     </div>
   );
 };

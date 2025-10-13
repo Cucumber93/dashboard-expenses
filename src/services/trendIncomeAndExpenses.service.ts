@@ -2,10 +2,10 @@
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-export const TrendExpensesService  = {
-    getTrendExpenses: async(type:string)=>{
+export const CompareService  = {
+    getCompareTrend: async(type:string)=>{
         try{
-            const response = await fetch(`${BASE_URL}/trend-expenses/${type}`);
+            const response = await fetch(`${BASE_URL}/compare/${type}`);
             if(!response.ok){
                 throw new Error("Failed to fetch trend expenses hourly");
             }

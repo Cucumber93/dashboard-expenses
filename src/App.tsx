@@ -1,8 +1,8 @@
 
 // import './App.css'
-import ChartCard from "./components/ChartCard"
-import { OverviewCard } from "./components/OverviewCard"
-import Topbar from "./components/Topbar"
+import ChartCard from "./pages/ChartCard"
+import { OverviewCard } from "./pages/OverviewCard"
+import Topbar from "./pages/Topbar"
 
 
 function App() {
