@@ -1,4 +1,3 @@
-// src/pages/Login.tsx
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import liff from "@line/liff"
@@ -17,22 +16,26 @@ export default function Login() {
           liff.login()
         } else {
           const idToken = liff.getIDToken()
-          localStorage.setItem("liff_id_token", idToken)
+          if (idToken) {
+            localStorage.setItem("liff_id_token", idToken)
 
-          // ตรวจสอบ token กับ backend
-          const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/verify-token`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ idToken }),
-          })
-          const data = await res.json()
+            // ตรวจสอบ token กับ backend
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/verify-token`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ idToken }),
+            })
+            const data = await res.json()
 
-          if (data.valid) {
-            // ✅ login สำเร็จ
-            localStorage.setItem("user", JSON.stringify(data.user))
-            navigate("/")
+            if (data.valid) {
+              localStorage.setItem("user", JSON.stringify(data.user))
+              navigate("/")
+            } else {
+              localStorage.removeItem("liff_id_token")
+              liff.login()
+            }
           } else {
-            localStorage.removeItem("liff_id_token")
+            // ถ้าไม่มี idToken (กรณี liff ยังไม่พร้อม)
             liff.login()
           }
         }
