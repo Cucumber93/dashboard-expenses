@@ -1,19 +1,16 @@
+// src/routes/AppRouter.tsx
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+// import Login from "./pages/Login"
+import Login from "./pages/Login"
+import Home from "./pages/Home"
 
-// import './App.css'
-import ChartCard from "./pages/ChartCard"
-import { OverviewCard } from "./pages/OverviewCard"
-import Topbar from "./pages/Topbar"
-
-
-function App() {
-  
+export default function AppRouter() {
   return (
-    <>
-      <Topbar/>
-      <OverviewCard/>
-      <ChartCard/>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
-
-export default App
