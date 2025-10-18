@@ -12,71 +12,40 @@ export default function Login() {
         await liff.init({ liffId: import.meta.env.VITE_LIFF_ID });
         await liff.ready;
 
-        console.log("✅ LIFF initialized.");
-        console.log("isLoggedIn:", liff.isLoggedIn());
-
-        // 🔹 1️⃣ ถ้ามี user อยู่แล้ว → ข้ามไปหน้า /
+        // ✅ 1️⃣ ถ้ามี user ใน localStorage → Auto login เลย
         const savedUser = localStorage.getItem("user");
         if (savedUser) {
-          console.log("👤 Found existing user in localStorage → redirect to /");
+          console.log("👤 Auto-login success:", JSON.parse(savedUser));
           navigate("/");
           return;
         }
 
-        // 🔹 2️⃣ ถ้ายังไม่ login → ไปหน้า LINE Login
-        if (!liff.isLoggedIn()) {
-          console.log("➡️ Redirecting to LINE Login...");
-          liff.login({
-            redirectUri: "https://dashboard-expenses.onrender.com/login", // ✅ ต้องตรงกับ domain ใน LINE Developers
-          });
-          return;
-        }
-
-        // 🔹 3️⃣ ดึงข้อมูลผู้ใช้จาก LINE
-        const profile = await liff.getProfile();
+        // ✅ 2️⃣ ถ้ายังไม่มี token → login กับ LINE
         const idToken = liff.getIDToken();
 
         if (!idToken) {
-          console.log("❌ No ID Token, force re-login.");
+          console.log("🕹 Logging in via LINE...");
           liff.login({
-            redirectUri: "https://dashboard-expenses.onrender.com/login",
+            redirectUri: "https://dashboard-expenses.onrender.com/login", // ต้องตรงกับ LINE Developers
           });
           return;
         }
 
-        console.log("👤 Profile:", profile);
-        console.log("🪪 ID Token:", idToken);
+        // ✅ 3️⃣ ดึงข้อมูลโปรไฟล์จาก LINE
+        const profile = await liff.getProfile();
 
-        // 🔹 4️⃣ (Optional) ตรวจสอบ token กับ backend
-        const res = await fetch(
-          `${import.meta.env.VITE_API_BASE_URL}/api/verify-token`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ idToken }),
-          }
-        );
+        // ✅ 4️⃣ เก็บ token + ชื่อ + รูป
+        const userData = {
+          name: profile.displayName,
+          picture: profile.pictureUrl,
+          token: idToken,
+        };
 
-        const data = await res.json();
-        console.log("🧾 Verify result:", data);
+        localStorage.setItem("user", JSON.stringify(userData));
+        console.log("✅ Saved new user:", userData);
 
-        // 🔹 5️⃣ ถ้า token valid → เก็บข้อมูลไว้ใน localStorage
-        if (data.valid) {
-          const userData = {
-            name: profile.displayName,
-            picture: profile.pictureUrl,
-            token: idToken,
-          };
-          localStorage.setItem("user", JSON.stringify(userData));
-          console.log("✅ Saved user:", userData);
-          navigate("/");
-        } else {
-          console.log("❌ Invalid token, clearing user and re-login...");
-          localStorage.removeItem("user");
-          liff.login({
-            redirectUri: "https://dashboard-expenses.onrender.com/login",
-          });
-        }
+        // ✅ 5️⃣ redirect ไปหน้า /
+        navigate("/");
       } catch (err) {
         console.error("💥 LIFF init error:", err);
       }
@@ -87,7 +56,7 @@ export default function Login() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen text-center">
-      <h1 className="text-2xl font-bold mb-4">LINE Login</h1>
+      <h1 className="text-2xl font-bold mb-4">LINE Auto Login</h1>
       <p>กำลังตรวจสอบสถานะการเข้าสู่ระบบ...</p>
     </div>
   );
