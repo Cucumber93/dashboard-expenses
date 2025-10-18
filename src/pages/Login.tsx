@@ -6,34 +6,44 @@ export default function Login() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("testtt");
     const initLiff = async () => {
       try {
-        // ✅ เริ่มต้น LIFF
+        console.log("🚀 Initializing LIFF...");
         await liff.init({ liffId: import.meta.env.VITE_LIFF_ID });
+        await liff.ready; // ✅ รอให้ LIFF ready ก่อน
 
-        console.log("LIFF init success ✅");
-        console.log("isLoggedIn:", liff.isLoggedIn());
+        console.log("✅ LIFF init success");
 
-        // 🔸 ถ้ายังไม่ได้ login ให้ redirect ไปหน้า login ของ LINE
+        // 🔹 ถ้ามี user ใน localStorage อยู่แล้ว → ข้าม login ทันที
+        const savedUser = localStorage.getItem("user");
+        if (savedUser) {
+          console.log("👤 Already logged in, skipping LINE login");
+          navigate("/");
+          return;
+        }
+
+        // 🔹 เช็กว่า login แล้วหรือยัง
         if (!liff.isLoggedIn()) {
+          console.log("➡️ Not logged in, redirecting to LINE...");
           liff.login({
-            redirectUri: `${window.location.origin}/login`,
+            redirectUri: "https://dashboard-expenses.onrender.com/login",
           });
           return;
         }
 
-        // ✅ ดึงข้อมูลผู้ใช้จาก LINE
-        const profile = await liff.getProfile(); // <-- ดึงชื่อและรูปจาก LINE
-        console.log("profile: ", profile);
-        const idToken = liff.getIDToken(); // <-- ได้ token จาก LINE
+        // ✅ ดึงข้อมูลโปรไฟล์และ token
+        const profile = await liff.getProfile();
+        const idToken = liff.getIDToken();
 
         if (!idToken) {
-          liff.login();
+          console.log("❌ No token found, force re-login");
+          liff.login({
+            redirectUri: "https://dashboard-expenses.onrender.com/login",
+          });
           return;
         }
 
-        // ✅ ส่ง token ไปให้ backend ตรวจสอบความถูกต้อง (optional)
+        // ✅ ส่ง token ไป verify ที่ backend (optional)
         const res = await fetch(
           `${import.meta.env.VITE_API_BASE_URL}/api/verify-token`,
           {
@@ -44,27 +54,28 @@ export default function Login() {
         );
 
         const data = await res.json();
+        console.log("🧾 Backend verify result:", data);
 
-        // 🔹 ตรวจสอบว่า token valid
         if (data.valid) {
-          // ✅ เก็บเฉพาะ name, picture, token ใน localStorage
+          // ✅ เก็บข้อมูลไว้ localStorage
           const userData = {
             name: profile.displayName,
             picture: profile.pictureUrl,
             token: idToken,
           };
-
           localStorage.setItem("user", JSON.stringify(userData));
+          console.log("✅ Saved user:", userData);
 
-          console.log("✅ Login success:", userData);
           navigate("/");
         } else {
-          // ❌ ถ้า token ไม่ valid → ล้างข้อมูลแล้ว login ใหม่
+          console.log("❌ Invalid token, clear and re-login");
           localStorage.removeItem("user");
-          liff.login();
+          liff.login({
+            redirectUri: "https://dashboard-expenses.onrender.com/login",
+          });
         }
       } catch (err) {
-        console.error("❌ LIFF init error:", err);
+        console.error("💥 LIFF init error:", err);
       }
     };
 
