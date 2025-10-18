@@ -23,6 +23,7 @@ export default function Login() {
 
         // ✅ ดึงข้อมูลผู้ใช้จาก LINE
         const profile = await liff.getProfile(); // <-- ดึงชื่อและรูปจาก LINE
+        console.log('profile: ',profile)
         const idToken = liff.getIDToken(); // <-- ได้ token จาก LINE
 
         if (!idToken) {
