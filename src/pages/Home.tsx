@@ -24,7 +24,7 @@ function App() {
   //     console.log('user: ',user)
   //   },[user])
   return (
-    <>ddd
+    <>
       <Topbar/>
       <OverviewCard/>
       <ChartCard/>
