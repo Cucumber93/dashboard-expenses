@@ -8,23 +8,25 @@ export default function Login() {
   useEffect(() => {
     const initLiff = async () => {
       try {
+        // ✅ เริ่มต้น LIFF
         await liff.init({ liffId: import.meta.env.VITE_LIFF_ID });
 
-        // ถ้ายังไม่ได้ login ให้ redirect ไป login ของ LINE
+        // 🔸 ถ้ายังไม่ได้ login ให้ redirect ไปหน้า login ของ LINE
         if (!liff.isLoggedIn()) {
           liff.login();
           return;
         }
 
-        // ✅ ได้ token จาก LINE
-        const idToken = liff.getIDToken();
+        // ✅ ดึงข้อมูลผู้ใช้จาก LINE
+        const profile = await liff.getProfile(); // <-- ดึงชื่อและรูปจาก LINE
+        const idToken = liff.getIDToken();       // <-- ได้ token จาก LINE
 
         if (!idToken) {
           liff.login();
           return;
         }
 
-        // ✅ ส่ง token ไปให้ backend ตรวจสอบความถูกต้อง
+        // ✅ ส่ง token ไปให้ backend ตรวจสอบความถูกต้อง (optional)
         const res = await fetch(
           `${import.meta.env.VITE_API_BASE_URL}/api/verify-token`,
           {
@@ -36,25 +38,26 @@ export default function Login() {
 
         const data = await res.json();
 
+        // 🔹 ตรวจสอบว่า token valid
         if (data.valid) {
-          // ✅ เก็บเฉพาะ name, picture, token
+          // ✅ เก็บเฉพาะ name, picture, token ใน localStorage
           const userData = {
-            name: data.displayName,      // จาก backend
-            picture: data.pictureUrl,    // จาก backend
-            token: idToken,              // token จาก LINE
+            name: profile.displayName,
+            picture: profile.pictureUrl,
+            token: idToken,
           };
 
           localStorage.setItem("user", JSON.stringify(userData));
-          console.log("✅ Login success:", userData);
 
+          console.log("✅ Login success:", userData);
           navigate("/");
         } else {
-          // ❌ ถ้า token ไม่ valid ให้ login ใหม่
+          // ❌ ถ้า token ไม่ valid → ล้างข้อมูลแล้ว login ใหม่
           localStorage.removeItem("user");
           liff.login();
         }
       } catch (err) {
-        console.error("LIFF init error:", err);
+        console.error("❌ LIFF init error:", err);
       }
     };
 
