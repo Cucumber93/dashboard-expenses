@@ -1,13 +1,14 @@
+import axios from "axios";
+
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 export const BalanceService = {
-  getBalance: async () => {
+  getBalance: async (userId:string) => {
     try {
-      const response = await fetch(`${BASE_URL}/balance`);
-      if (!response.ok) {
-        throw new Error("Failed to fetch balance");
-      }
-      return await response.json();
+      const response = await axios.get(`${BASE_URL}/balance`, {
+        params: { userId }, // ✅ axios จะ auto แปลงเป็น ?userId=...
+      });
+      return response.data;
     } catch (error) {
       console.error("Error fetching balance:", error);
       throw error;

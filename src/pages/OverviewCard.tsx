@@ -60,7 +60,7 @@ export function OverviewCard() {
   }
 
   const fetchBalance = async () => {
-    const data = await BalanceService.getBalance();
+    const data = await BalanceService.getBalance('');
     setDataBalance(data.netBalance);
     setTotalIncome(data.totalIncome);
     setTotalExpenses(data.totalExpense);
