@@ -6,7 +6,7 @@ export default function Login() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log('testtt')
+    console.log("testtt");
     const initLiff = async () => {
       try {
         // ✅ เริ่มต้น LIFF
@@ -17,13 +17,15 @@ export default function Login() {
 
         // 🔸 ถ้ายังไม่ได้ login ให้ redirect ไปหน้า login ของ LINE
         if (!liff.isLoggedIn()) {
-          liff.login();
+          liff.login({
+            redirectUri: `${window.location.origin}/login`,
+          });
           return;
         }
 
         // ✅ ดึงข้อมูลผู้ใช้จาก LINE
         const profile = await liff.getProfile(); // <-- ดึงชื่อและรูปจาก LINE
-        console.log('profile: ',profile)
+        console.log("profile: ", profile);
         const idToken = liff.getIDToken(); // <-- ได้ token จาก LINE
 
         if (!idToken) {
