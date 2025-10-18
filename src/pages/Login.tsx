@@ -8,42 +8,45 @@ export default function Login() {
   useEffect(() => {
     const initLiff = async () => {
       try {
-        console.log("🚀 Initializing LIFF...");
+        console.log("🚀 เริ่มต้น LIFF");
         await liff.init({ liffId: import.meta.env.VITE_LIFF_ID });
-        await liff.ready; // ✅ รอให้ LIFF ready ก่อน
 
         console.log("✅ LIFF init success");
+        console.log("isLoggedIn (หลัง init):", liff.isLoggedIn());
 
-        // 🔹 ถ้ามี user ใน localStorage อยู่แล้ว → ข้าม login ทันที
+        // ✅ STEP 1: ถ้ามี user ใน localStorage แล้ว ให้ข้าม login
         const savedUser = localStorage.getItem("user");
         if (savedUser) {
-          console.log("👤 Already logged in, skipping LINE login");
+          console.log("👤 พบ user เดิมใน localStorage → ข้าม login");
           navigate("/");
           return;
         }
 
-        // 🔹 เช็กว่า login แล้วหรือยัง
+        // ✅ STEP 2: ถ้ายังไม่ login → login ใหม่ (พร้อม redirectUri)
         if (!liff.isLoggedIn()) {
-          console.log("➡️ Not logged in, redirecting to LINE...");
+          console.log("❌ ยังไม่ login → เรียก liff.login()");
           liff.login({
             redirectUri: "https://dashboard-expenses.onrender.com/login",
           });
           return;
         }
 
-        // ✅ ดึงข้อมูลโปรไฟล์และ token
+        // ✅ STEP 3: ถ้า login แล้ว → ดึงโปรไฟล์
         const profile = await liff.getProfile();
         const idToken = liff.getIDToken();
 
+        console.log("👤 Profile:", profile);
+        console.log("🔑 ID Token:", idToken);
+
         if (!idToken) {
-          console.log("❌ No token found, force re-login");
+          console.log("❌ ไม่มี token → login ใหม่");
           liff.login({
             redirectUri: "https://dashboard-expenses.onrender.com/login",
           });
           return;
         }
 
-        // ✅ ส่ง token ไป verify ที่ backend (optional)
+        // ✅ STEP 4: ส่ง token ไป verify ที่ backend
         const res = await fetch(
           `${import.meta.env.VITE_API_BASE_URL}/api/verify-token`,
           {
@@ -57,18 +60,16 @@ export default function Login() {
         console.log("🧾 Backend verify result:", data);
 
         if (data.valid) {
-          // ✅ เก็บข้อมูลไว้ localStorage
           const userData = {
             name: profile.displayName,
             picture: profile.pictureUrl,
             token: idToken,
           };
           localStorage.setItem("user", JSON.stringify(userData));
-          console.log("✅ Saved user:", userData);
-
+          console.log("✅ บันทึกข้อมูล user:", userData);
           navigate("/");
         } else {
-          console.log("❌ Invalid token, clear and re-login");
+          console.log("❌ Token ไม่ valid → ล้างข้อมูลและ login ใหม่");
           localStorage.removeItem("user");
           liff.login({
             redirectUri: "https://dashboard-expenses.onrender.com/login",
@@ -84,8 +85,8 @@ export default function Login() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen text-center">
-      <h1 className="text-2xl font-bold mb-4">LINE Login</h1>
-      <p>กำลังตรวจสอบสถานะการเข้าสู่ระบบ...</p>
+      <h1 className="text-2xl font-bold mb-4">LINE Login Debug</h1>
+      <p>ดูผลลัพธ์ใน Console (F12)</p>
     </div>
   );
 }
