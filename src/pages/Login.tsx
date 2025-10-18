@@ -6,10 +6,14 @@ export default function Login() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log('testtt')
     const initLiff = async () => {
       try {
         // ✅ เริ่มต้น LIFF
         await liff.init({ liffId: import.meta.env.VITE_LIFF_ID });
+
+        console.log("LIFF init success ✅");
+        console.log("isLoggedIn:", liff.isLoggedIn());
 
         // 🔸 ถ้ายังไม่ได้ login ให้ redirect ไปหน้า login ของ LINE
         if (!liff.isLoggedIn()) {
@@ -19,7 +23,7 @@ export default function Login() {
 
         // ✅ ดึงข้อมูลผู้ใช้จาก LINE
         const profile = await liff.getProfile(); // <-- ดึงชื่อและรูปจาก LINE
-        const idToken = liff.getIDToken();       // <-- ได้ token จาก LINE
+        const idToken = liff.getIDToken(); // <-- ได้ token จาก LINE
 
         if (!idToken) {
           liff.login();
