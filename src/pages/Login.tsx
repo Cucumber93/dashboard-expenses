@@ -33,7 +33,7 @@ export default function Login() {
 
     initLiff();
     console.log('----after----')
-  }, [navigate]);
+  }, []);
 
   return <div>กำลังเข้าสู่ระบบ...</div>;
 }
