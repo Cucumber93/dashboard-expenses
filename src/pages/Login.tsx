@@ -16,15 +16,26 @@ export default function Login() {
           return;
         }
 
-        await liff.init({ liffId: import.meta.env.VITE_LIFF_ID });
-        await liff.ready;
+        // await liff.init({ liffId: import.meta.env.VITE_LIFF_ID });
+        // await liff.ready;
 
-        console.log("isLoggedIn:", liff.isLoggedIn());
+        // console.log("isLoggedIn:", liff.isLoggedIn());
 
-        if (!liff.isLoggedIn()) {
-          liff.login({ redirectUri: "https://dashboard-expenses.onrender.com/login" });
-          return;
+        // if (!liff.isLoggedIn()) {
+        //   liff.login({ redirectUri: "https://dashboard-expenses.onrender.com/login" });
+        //   return;
+        // }
+
+
+        await liff.init({liffId: '2008277464-bBvaglGD'})
+        if(!liff.isLoggedIn()){
+          console.log("isLoggedIn:", liff.isLoggedIn());
+          liff.login()
+          return false
+        }else{
+          console.log("isLoggedIn:", liff.isLoggedIn());
         }
+
 
         const idToken = liff.getIDToken();
         console.log("idToken:", idToken);
