@@ -7,6 +7,7 @@ export default function Login() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log('---before---')
     const initLiff = async () => {
       try {
         const localToken = localStorage.getItem("access_token");
@@ -39,6 +40,8 @@ export default function Login() {
         if (res.data?.token) {
           localStorage.setItem("access_token", res.data.token);
           navigate("/");
+        }else{
+          return false
         }
       } catch (err) {
         console.error("login error:", err);
@@ -46,6 +49,7 @@ export default function Login() {
     };
 
     initLiff();
+    console.log('---after---')
   }, [navigate]);
 
   return <div>กำลังเข้าสู่ระบบ...</div>;
