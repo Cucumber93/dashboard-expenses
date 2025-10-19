@@ -7,8 +7,10 @@ export default function Login() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log('----before----')
     const initLiff = async () => {
       const token = localStorage.getItem("access_token");
+      console.log('add token....')
       if (token) {
         // ถ้ามี token อยู่แล้ว → ไปหน้า /
         navigate("/");
@@ -30,6 +32,7 @@ export default function Login() {
     };
 
     initLiff();
+    console.log('----after----')
   }, [navigate]);
 
   return <div>กำลังเข้าสู่ระบบ...</div>;
