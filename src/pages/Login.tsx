@@ -11,7 +11,6 @@ export default function Login() {
       try {
         const localToken = localStorage.getItem("access_token");
         if (localToken) {
-          console.log("🔹 already logged in, redirect to home");
           navigate("/");
           return;
         }
@@ -19,30 +18,30 @@ export default function Login() {
         await liff.init({ liffId: import.meta.env.VITE_LIFF_ID });
         await liff.ready;
 
-        console.log("✅ liff.ready done");
-        console.log("liff.isLoggedIn():", liff.isLoggedIn());
+        console.log("isLoggedIn:", liff.isLoggedIn());
 
         if (!liff.isLoggedIn()) {
-          console.log("🌀 Not logged in → redirect to LINE");
-          liff.login({ redirectUri: window.location.origin + "/login" });
+          liff.login({ redirectUri: "https://dashboard-expenses.onrender.com/login" });
           return;
         }
 
         const idToken = liff.getIDToken();
-        console.log("🎫 idToken:", idToken);
+        console.log("idToken:", idToken);
+        if (!idToken) return;
 
-        if (!idToken) {
-          console.warn("⚠️ No idToken found from LIFF");
-          return;
+        const res = await axios.post(
+          `${import.meta.env.VITE_API_BASE}/auth/verify`,
+          { idToken },
+          { withCredentials: false }
+        );
+        console.log("backend response:", res.data);
+
+        if (res.data?.token) {
+          localStorage.setItem("access_token", res.data.token);
+          navigate("/");
         }
-
-        const res = await axios.post(`${import.meta.env.VITE_API_BASE}/auth/line`, { idToken });
-        localStorage.setItem("access_token", res.data.token);
-
-        console.log("✅ Login success, go home");
-        navigate("/");
       } catch (err) {
-        console.error("❌ LIFF login error:", err);
+        console.error("login error:", err);
       }
     };
 
