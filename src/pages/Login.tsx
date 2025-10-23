@@ -12,6 +12,7 @@ export default function Login() {
         await liff.init({ liffId: import.meta.env.VITE_LIFF_ID });
         await liff.ready;
 
+        console.log('dddd: ',liff.isLoggedIn())
         // ถ้ายังไม่ login ให้ redirect ไปหน้า LINE Login
         if (!liff.isLoggedIn()) {
           liff.login({ redirectUri: window.location.href });
