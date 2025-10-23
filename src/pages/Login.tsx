@@ -9,7 +9,7 @@ export default function Login() {
     }
 
     const clientId = import.meta.env.VITE_LINE_LOGIN_CLIENT_ID;
-    const redirectUri = encodeURIComponent(`${window.location.origin}/auth/callback`);
+    const redirectUri = encodeURIComponent(`https://dashboard-expenses.onrender.com/login`);
     const state = "random_state_123";
     const scope = "openid%20profile%20email";
 
