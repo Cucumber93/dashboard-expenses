@@ -16,6 +16,7 @@ export default function Login() {
         // ถ้ายังไม่ login ให้ redirect ไปหน้า LINE Login
         if (!liff.isLoggedIn()) {
           liff.login({ redirectUri: window.location.href });
+          console.log('aaaa: ',liff.isLoggedIn())
           return;
         }
 
