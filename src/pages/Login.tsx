@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import liff from "@line/liff";
-// import axios from "axios";
-// import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const initLiff = async () => {
@@ -12,32 +12,28 @@ export default function Login() {
         await liff.init({ liffId: import.meta.env.VITE_LIFF_ID });
         await liff.ready;
 
-        console.log('dddd: ',liff.isLoggedIn())
         // ถ้ายังไม่ login ให้ redirect ไปหน้า LINE Login
         if (!liff.isLoggedIn()) {
           liff.login({ redirectUri: window.location.href });
-          console.log('aaaa: ',liff.isLoggedIn())
           return;
         }
-
-        console.log('is logged in: ', liff.isLoggedIn())
 
         // หลัง login แล้ว จะได้ idToken
         const idToken = liff.getIDToken();
         console.log("LINE idToken:", idToken);
 
-        // if (idToken) {
-        //   // ส่ง token ไปตรวจสอบที่ backend
-        //   const res = await axios.post(
-        //     `${import.meta.env.VITE_API_URL}/auth/line`,
-        //     { idToken }
-        //   );
+        if (idToken) {
+          // ส่ง token ไปตรวจสอบที่ backend
+          const res = await axios.post(
+            `${import.meta.env.VITE_BASE_URL}/auth/verify`,
+            { idToken }
+          );
 
-        //   // เก็บ access token ไว้
-        //   localStorage.setItem("access_token", res.data.access_token);
+          // เก็บ access token ไว้
+          localStorage.setItem("access_token", res.data.access_token);
 
-        //   navigate("/");
-        // }
+          navigate("/");
+        }
       } catch (err) {
         console.error("LIFF init error:", err);
       }
