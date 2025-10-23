@@ -1,14 +1,13 @@
-// src/routes/AppRouter.tsx
-import { BrowserRouter, Routes, Route } from "react-router-dom"
-import Login from "./pages/Login"
-import Home from "./pages/Home"
-import ProtectedRoute from "./utils/protectedRoute"
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ProtectedRoute from "./utils/protectedRoute";
+import Login from "./pages/Login";
+import Callback from "./pages/Callback";
+import Home from "./pages/Home";
 
 export default function AppRouter() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* หน้า Home ต้อง login ก่อน */}
         <Route
           path="/"
           element={
@@ -17,10 +16,9 @@ export default function AppRouter() {
             </ProtectedRoute>
           }
         />
-
-        {/* หน้า Login เข้าได้เสมอ */}
         <Route path="/login" element={<Login />} />
+        <Route path="/callback" element={<Callback />} />
       </Routes>
     </BrowserRouter>
-  )
+  );
 }

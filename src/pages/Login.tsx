@@ -1,46 +1,21 @@
 import { useEffect } from "react";
-import liff from "@line/liff";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-  const navigate = useNavigate();
-
   useEffect(() => {
-    const initLiff = async () => {
-      try {
-        const localToken = localStorage.getItem("access_token");
-        if (localToken) {
-          navigate("/");
-          return;
-        }
+    const token = localStorage.getItem("access_token");
+    if (token) {
+      window.location.href = "/";
+      return;
+    }
 
-        await liff.init({ liffId: import.meta.env.VITE_LIFF_ID });
-        await liff.ready;
+    const clientId = import.meta.env.VITE_LINE_LOGIN_CLIENT_ID;
+    const redirectUri = encodeURIComponent(`${window.location.origin}/auth/callback`);
+    const state = "random_state_123";
+    const scope = "openid%20profile%20email";
 
-        if (!liff.isLoggedIn()) {
-          // ใช้ origin ให้ตรงกับที่ตั้งใน LINE Developer
-          liff.login({ redirectUri: `https://dashboard-expenses.onrender.com/login` });
-          return;
-        }
+    const lineLoginUrl = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${state}&scope=${scope}`;
 
-        const idToken = liff.getIDToken();
-        console.log("LINE idToken:", idToken);
-
-        if (idToken) {
-          const res = await axios.post(
-            `${import.meta.env.VITE_BASE_URL}/auth/verify`,
-            { idToken }
-          );
-          localStorage.setItem("access_token", res.data.access_token);
-          navigate("/");
-        }
-      } catch (err) {
-        console.error("LIFF init error:", err);
-      }
-    };
-
-    initLiff();
+    window.location.href = lineLoginUrl;
   }, []);
 
   return <div>กำลังเข้าสู่ระบบผ่าน LINE...</div>;
