@@ -1,13 +1,13 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import ProtectedRoute from "./utils/protectedRoute";
 import Login from "./pages/Login";
-import Callback from "./pages/Callback";
 import Home from "./pages/Home";
+import ProtectedRoute from "./utils/protectedRoute";
 
-export default function AppRouter() {
+export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/login" element={<Login />} />
         <Route
           path="/"
           element={
@@ -16,8 +16,6 @@ export default function AppRouter() {
             </ProtectedRoute>
           }
         />
-        <Route path="/login" element={<Login />} />
-        <Route path="/callback" element={<Callback />} />
       </Routes>
     </BrowserRouter>
   );
