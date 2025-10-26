@@ -2,35 +2,31 @@ import liff from "@line/liff";
 import { useEffect } from "react";
 import { AuthService } from "../../services/auth.service";
 import type { IProfile } from "../../interface/line";
+import { useNavigate } from "react-router-dom";
+
 const Line = () => {
-  useEffect(() => {
-    handleGetProfile();
-  });
+  const navigate = useNavigate();
   useEffect(() => {
     liff.init({ liffId: "2008277464-bBvaglGD" }).then(() => {
       //code
       handleLogin();
     });
+
+    handleGetProfile()
   }, []);
 
   const handleGetProfile = async () => {
-    try {
-      const token = await AuthService.getTokenCookie();
-      console.log("token from getProfileToken jaa: ", token);
-      return token;
-    } catch (error) {
-      console.log("Can not get Profile token: ", error);
-    }
-  };
+    const hasAuth = await AuthService.getTokenCookie(); // 👈 ฟังก์ชันนี้เราจะเขียนเพิ่มด้านล่าง
+      if (hasAuth) {
+        console.log("✅ Already logged in");
+        navigate("/"); // ถ้ามี cookie แล้ว ให้ไปหน้า home ทันที
+        return;
+      }
+    };
 
   const handleLogin = async () => {
     try {
       const profile = await liff.getProfile();
-      const token = await liff.getIDToken();
-      const accessToken = await liff.getAccessToken();
-      console.log("profile: ", profile);
-      console.log("token", token);
-      console.log("access token: ", accessToken);
       await AuthService.loginLine(profile as IProfile)
         .then((res) => {
           console.log(res);
