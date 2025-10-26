@@ -18,7 +18,7 @@ const Line = () => {
             console.log('profile: ',profile)
             console.log('token', token)
             console.log('access token: ', accessToken)
-            await AuthService.loginLine(accessToken)
+            await AuthService.loginLine(profile)
             .then(res=>{
                 console.log(res)
             }).catch(err=>console.log(err))
