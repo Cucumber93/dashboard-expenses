@@ -1,16 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
+import { AuthService } from "../services/auth.service";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
 }
 
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
-  const token = localStorage.getItem("access_token");
+  const [checking, setChecking] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  if (!token) {
-    return <Navigate to="/login" replace />;
-  }
+  useEffect(() => {
+    const verifyAuth = async () => {
+      try {
+        const hasAuth = await AuthService.getTokenCookie();
+        setIsLoggedIn(!!hasAuth);
+      } catch {
+        setIsLoggedIn(false);
+      } finally {
+        setChecking(false);
+      }
+    };
+    verifyAuth();
+  }, []);
+
+  if (checking) return <div>Checking login...</div>;
+  if (!isLoggedIn) return <Navigate to="/login" replace />;
 
   return <>{children}</>;
 }

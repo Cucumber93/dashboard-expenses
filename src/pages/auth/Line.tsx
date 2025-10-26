@@ -11,18 +11,7 @@ const Line = () => {
       //code
       handleLogin();
     });
-
-    handleGetProfile()
   }, []);
-
-  const handleGetProfile = async () => {
-    const hasAuth = await AuthService.getTokenCookie(); // 👈 ฟังก์ชันนี้เราจะเขียนเพิ่มด้านล่าง
-      if (hasAuth) {
-        console.log("✅ Already logged in");
-        navigate("/"); // ถ้ามี cookie แล้ว ให้ไปหน้า home ทันที
-        return;
-      }
-    };
 
   const handleLogin = async () => {
     try {
@@ -32,6 +21,8 @@ const Line = () => {
           console.log(res);
         })
         .catch((err) => console.log(err));
+        console.log("✅ Login success");
+        navigate("/dashboard");
     } catch (err) {
       console.log(err);
     }
