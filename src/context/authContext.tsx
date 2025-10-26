@@ -23,7 +23,9 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = ({ children }
     const refreshUser = async()=>{
         try{
             const response = await AuthService.getTokenCookie()
+            console.log('context response: ',response)
             if(response?.data?.user){
+                console.log('context user: ',response.data.user)
                 setUser(response.data.user)
                 return
             }
