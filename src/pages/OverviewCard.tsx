@@ -63,7 +63,7 @@ export function OverviewCard() {
 
   const fetchBalance = async () => {
     console.log(user?.userId)
-    const data = await BalanceService.getBalance(user?.userId);
+    const data = await BalanceService.getBalance(user?.userId || 'null');
 
     console.log('data balence: ',data)
     setDataBalance(data.netBalance);
@@ -73,11 +73,8 @@ export function OverviewCard() {
 
   useEffect(() => {
     fetchBalance();
-  }, []);
+  }, [user]);
 
-  useEffect(()=>{
-    console.log('overview: ',user)
-  },[user])
   return (
     <div className="grid grid-cols-3 gap-5 ml-10 mr-10 mt-5">
       {overviewData.map((items, id) => (
