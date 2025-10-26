@@ -21,7 +21,6 @@ const Line = () => {
           console.log(res);
         })
         .catch((err) => console.log(err));
-        console.log("✅ Login success");
         navigate("/");
     } catch (err) {
       console.log(err);
