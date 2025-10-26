@@ -1,6 +1,7 @@
 import liff from '@line/liff'
 import { useEffect } from 'react'
 import {AuthService} from '../../services/auth.service'
+import type { IProfile } from '../../interface/line'
 const Line = () => {
       useEffect(()=>{
         liff.init({liffId:'2008277464-bBvaglGD'})
@@ -18,7 +19,7 @@ const Line = () => {
             console.log('profile: ',profile)
             console.log('token', token)
             console.log('access token: ', accessToken)
-            await AuthService.loginLine(profile)
+            await AuthService.loginLine(profile as IProfile)
             .then(res=>{
                 console.log(res)
             }).catch(err=>console.log(err))
