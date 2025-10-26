@@ -3,13 +3,25 @@ import { useEffect } from 'react'
 import {AuthService} from '../../services/auth.service'
 import type { IProfile } from '../../interface/line'
 const Line = () => {
+
       useEffect(()=>{
         liff.init({liffId:'2008277464-bBvaglGD'})
         .then(()=>{
             //code
             handleLogin()
+            handleGetProfile()
         })
       },[])
+
+      const handleGetProfile = async()=>{
+        try{
+          const token = await AuthService.getTokenCookie()
+          console.log('token from getProfileToken jaa: ', token)
+          return token
+        }catch(error){
+          console.log('Can not get Profile token: ',error)
+        }
+      }
 
       const handleLogin = async()=>{
         try{

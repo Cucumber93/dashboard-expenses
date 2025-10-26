@@ -25,4 +25,16 @@ export const AuthService = {
       console.error("❌ Login Error:", err);
     }
   },
+  getTokenCookie: async()=>{
+    try{
+      const response = await axios.get(
+        `${BASE_URL}/auth/profile`,
+        {withCredentials: true}
+      )
+
+      return response
+    }catch(error){
+      console.log(error)
+    }
+  }
 };
