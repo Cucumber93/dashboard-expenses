@@ -1,10 +1,12 @@
 import { Icon } from "@iconify/react";
 import { useEffect, useState } from "react";
+import { useAuth } from "../context/authContext";
 
 //Services
 import { BalanceService } from "../services/balance.service";
 
 export function OverviewCard() {
+  const {user} = useAuth()
   const [totalIncome, setTotalIncome] = useState<number>(0);
   const [totalExpenses, setTotalExpenses] = useState<number>(0);
   const [dataBalance, setDataBalance] = useState<number>(0);
@@ -60,7 +62,9 @@ export function OverviewCard() {
   }
 
   const fetchBalance = async () => {
-    const data = await BalanceService.getBalance('');
+    const data = await BalanceService.getBalance(user?.userId);
+
+    console.log('data balence: ',data)
     setDataBalance(data.netBalance);
     setTotalIncome(data.totalIncome);
     setTotalExpenses(data.totalExpense);
