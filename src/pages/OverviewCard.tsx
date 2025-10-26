@@ -75,6 +75,9 @@ export function OverviewCard() {
     fetchBalance();
   }, []);
 
+  useEffect(()=>{
+    console.log('overview: ',user)
+  },[user])
   return (
     <div className="grid grid-cols-3 gap-5 ml-10 mr-10 mt-5">
       {overviewData.map((items, id) => (
