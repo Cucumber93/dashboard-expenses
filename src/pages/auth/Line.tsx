@@ -14,6 +14,7 @@ const Line = () => {
         try{
             // const profile = await liff.getProfile()
             const token = await liff.getAccessToken()
+            console.log('token', token)
             await AuthService.loginLine(token)
             .then(res=>{
                 console.log(res)
