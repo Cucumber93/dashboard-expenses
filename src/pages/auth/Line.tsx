@@ -22,7 +22,7 @@ const Line = () => {
         })
         .catch((err) => console.log(err));
         console.log("✅ Login success");
-        navigate("/dashboard");
+        navigate("/");
     } catch (err) {
       console.log(err);
     }

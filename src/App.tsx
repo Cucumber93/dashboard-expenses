@@ -11,7 +11,7 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/line" element={<Line/>} />
         <Route
-          path="/dashboard"
+          path="/"
           element={
             <ProtectedRoute>
               <Home />
