@@ -13,7 +13,7 @@ const Line = () => {
       const handleLogin = async()=>{
         try{
             // const profile = await liff.getProfile()
-            const token = await liff.getAccessToken()
+            const token = await liff.getIDToken()
             console.log('token', token)
             await AuthService.loginLine(token)
             .then(res=>{
