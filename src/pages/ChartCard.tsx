@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import LineChart from "../components/charts/line-chart";
-import type { Expense } from "../interface/table-data";
+// import type { Expense } from "../interface/table-data";
 import PieChart from "../components/charts/pie-chart";
 import SelectFilter from "../components/filter/select";
-import Table from "../components/table/table";
+// import Table from "../components/table/table";
 
 //Service
 import { TrendExpensesService } from "../services/trendExpenses.service";
@@ -21,7 +21,7 @@ import { useAuth } from "../context/authContext";
 export default function ChartCard() {
     const {user} = useAuth()
   const [dataTrendExpenses, setDataTrendExpenses] = useState<ITrendExpenses[]>([]);
-  const [dataExpensesHistory, setDataExpensesHistory] = useState<Expense[]>([]);
+  // const [dataExpensesHistory, setDataExpensesHistory] = useState<Expense[]>([]);
   const [dataCompare,setDataCompare] = useState<ICompare[]>([])
   const [filter, setFilter] = useState<string>("hourly");
 
@@ -49,7 +49,7 @@ export default function ChartCard() {
          data = await HistoryService.getHistory(user?.userId || 'null');
       }
       console.log('data history: ',data)
-      setDataExpensesHistory(data)
+      // setDataExpensesHistory(data)
     };
   
     useEffect(() => {
@@ -65,17 +65,17 @@ export default function ChartCard() {
     fetchCompare(filter)
   },[filter])
 
-  interface Column<T> {
-    key: keyof T;
-    label: string;
-  }
+  // interface Column<T> {
+  //   key: keyof T;
+  //   label: string;
+  // }
 
-  const columns: Column<Expense>[] = [
-    { key: "created_at", label: "Date" },
-    { key: "categoryId", label: "Category" },
-    { key: "name", label: "Name" },
-    { key: "value", label: "Value" },
-  ];
+  // const columns: Column<Expense>[] = [
+  //   { key: "created_at", label: "Date" },
+  //   { key: "categoryId", label: "Category" },
+  //   { key: "name", label: "Name" },
+  //   { key: "value", label: "Value" },
+  // ];
 
 
   return (
