@@ -66,6 +66,8 @@ export function OverviewCard() {
     let data = []
     if(user && user.userId){
        data = await BalanceService.getBalance(user?.userId || 'null');
+    }else{
+      console.log('do not have user and user.userId')
     }
     
 
