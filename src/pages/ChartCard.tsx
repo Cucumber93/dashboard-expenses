@@ -48,6 +48,7 @@ export default function ChartCard() {
       if(user && user.userId){
          data = await HistoryService.getHistory(user?.userId || 'null');
       }
+      console.log('data history: ',data)
       setDataExpensesHistory(data.data)
     };
   
