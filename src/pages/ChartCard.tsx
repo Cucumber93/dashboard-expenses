@@ -113,7 +113,7 @@ export default function ChartCard() {
             <div className="head-text-costom-style">Expenses History</div>
           </div>
           <div className="mt-3">
-            <Table columns={columns} data={dataExpensesHistory} />
+            {/* <Table columns={columns} data={dataExpensesHistory} /> */}
           </div>
         </div>
     </div>
