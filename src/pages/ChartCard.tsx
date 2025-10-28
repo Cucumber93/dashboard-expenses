@@ -49,7 +49,7 @@ export default function ChartCard() {
          data = await HistoryService.getHistory(user?.userId || 'null');
       }
       console.log('data history: ',data)
-      setDataExpensesHistory(data.data)
+      setDataExpensesHistory(data)
     };
   
     useEffect(() => {
