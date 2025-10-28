@@ -7,14 +7,19 @@ import Table from "../components/table/table";
 
 //Service
 import { TrendExpensesService } from "../services/trendExpenses.service";
-import { ExpensesService } from "../services/expenses.service";
+// import { ExpensesService } from "../services/expenses.service";
+import { HistoryService } from "../services/historyExpense.service";
+
+
 import {CompareService} from '../services/trendIncomeAndExpenses.service'
 
 //Interface
 import type { ICompare, ITrendExpenses } from "../interface/trend-expenses";
 import BarChart from "../components/charts/bar-chart";
+import { useAuth } from "../context/authContext";
 
 export default function ChartCard() {
+    const {user} = useAuth()
   const [dataTrendExpenses, setDataTrendExpenses] = useState<ITrendExpenses[]>([]);
   const [dataExpensesHistory, setDataExpensesHistory] = useState<Expense[]>([]);
   const [dataCompare,setDataCompare] = useState<ICompare[]>([])
@@ -29,17 +34,28 @@ export default function ChartCard() {
     setDataTrendExpenses(data);
   };
 
-  const fetchExpansesHistory = async () => {
-    const data = await ExpensesService.getALLExpenses();
-    setDataExpensesHistory(data);
-  };
+  // const fetchExpansesHistory = async () => {
+  //   const data = await ExpensesService.getALLExpenses();
+  //   setDataExpensesHistory(data);
+  // };
 
   const handleFilter = (type: string) => {
     setFilter(type);
   };
 
+    const fetchExpansesHistory = async () => {
+      let data = []
+      if(user && user.userId){
+         data = await HistoryService.getHistory(user?.userId || 'null');
+      }
+      setDataExpensesHistory(data)
+    };
+  
+    useEffect(() => {
+      fetchExpansesHistory();
+    }, [user]);
+
   useEffect(() => {
-    console.log("hi");
     fetchExpansesHistory();
   }, []);
 
