@@ -1,27 +1,22 @@
 import { useEffect, useState } from "react";
 import LineChart from "../components/charts/line-chart";
-// import type { Expense } from "../interface/table-data";
+import type { Expense } from "../interface/table-data";
 import PieChart from "../components/charts/pie-chart";
 import SelectFilter from "../components/filter/select";
-// import Table from "../components/table/table";
+import Table from "../components/table/table";
 
 //Service
 import { TrendExpensesService } from "../services/trendExpenses.service";
-// import { ExpensesService } from "../services/expenses.service";
-import { HistoryService } from "../services/historyExpense.service";
-
-
+import { ExpensesService } from "../services/expenses.service";
 import {CompareService} from '../services/trendIncomeAndExpenses.service'
 
 //Interface
 import type { ICompare, ITrendExpenses } from "../interface/trend-expenses";
 import BarChart from "../components/charts/bar-chart";
-import { useAuth } from "../context/authContext";
 
 export default function ChartCard() {
-    const {user} = useAuth()
   const [dataTrendExpenses, setDataTrendExpenses] = useState<ITrendExpenses[]>([]);
-  // const [dataExpensesHistory, setDataExpensesHistory] = useState<Expense[]>([]);
+  const [dataExpensesHistory, setDataExpensesHistory] = useState<Expense[]>([]);
   const [dataCompare,setDataCompare] = useState<ICompare[]>([])
   const [filter, setFilter] = useState<string>("hourly");
 
@@ -34,29 +29,17 @@ export default function ChartCard() {
     setDataTrendExpenses(data);
   };
 
-  // const fetchExpansesHistory = async () => {
-  //   const data = await ExpensesService.getALLExpenses();
-  //   setDataExpensesHistory(data);
-  // };
+  const fetchExpansesHistory = async () => {
+    const data = await ExpensesService.getALLExpenses();
+    setDataExpensesHistory(data);
+  };
 
   const handleFilter = (type: string) => {
     setFilter(type);
   };
 
-    const fetchExpansesHistory = async () => {
-      let data = []
-      if(user && user.userId){
-         data = await HistoryService.getHistory(user?.userId || 'null');
-      }
-      console.log('data history: ',data)
-      // setDataExpensesHistory(data)
-    };
-  
-    useEffect(() => {
-      fetchExpansesHistory();
-    }, [user]);
-
   useEffect(() => {
+    console.log("hi");
     fetchExpansesHistory();
   }, []);
 
@@ -65,17 +48,17 @@ export default function ChartCard() {
     fetchCompare(filter)
   },[filter])
 
-  // interface Column<T> {
-  //   key: keyof T;
-  //   label: string;
-  // }
+  interface Column<T> {
+    key: keyof T;
+    label: string;
+  }
 
-  // const columns: Column<Expense>[] = [
-  //   { key: "created_at", label: "Date" },
-  //   { key: "categoryId", label: "Category" },
-  //   { key: "name", label: "Name" },
-  //   { key: "value", label: "Value" },
-  // ];
+  const columns: Column<Expense>[] = [
+    { key: "created_at", label: "Date" },
+    { key: "categoryId", label: "Category" },
+    { key: "name", label: "Name" },
+    { key: "value", label: "Value" },
+  ];
 
 
   return (
@@ -113,7 +96,7 @@ export default function ChartCard() {
             <div className="head-text-costom-style">Expenses History</div>
           </div>
           <div className="mt-3">
-            {/* <Table columns={columns} data={dataExpensesHistory} /> */}
+            <Table columns={columns} data={dataExpensesHistory} />
           </div>
         </div>
     </div>
