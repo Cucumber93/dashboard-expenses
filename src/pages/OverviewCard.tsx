@@ -63,7 +63,11 @@ export function OverviewCard() {
 
   const fetchBalance = async () => {
     console.log(user?.userId)
-    const data = await BalanceService.getBalance(user?.userId || 'null');
+    let data = []
+    if(user && user.userId){
+       data = await BalanceService.getBalance(user?.userId || 'null');
+    }
+    
 
     console.log('data balence: ',data)
     setDataBalance(data.netBalance);
