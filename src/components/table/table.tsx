@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 
 
 interface Column<T> {
@@ -14,7 +15,10 @@ interface TableProps<T> {
  * Generic, reusable table component
  */
 function Table<T extends Record<string, any>>({ columns, data }: TableProps<T>) {
-  console.log('table data: ',data)
+
+  useEffect(()=>{
+    console.log('data: ',data)
+  },[data])
   return (
     <div className="overflow-x-auto rounded-lg shadow-md border border-gray-200">
       <table className="min-w-full">
