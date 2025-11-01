@@ -34,8 +34,9 @@ export default function ChartCard() {
     const data = await CompareService.getCompareTrend(type);
     setDataCompare(data);
   };
-  const fetchTrendExpanses = async (type: string) => {
-    const data = await TrendExpensesService.getTrendExpenses(type);
+  const fetchTrendExpanses = async (type: string,userId:string) => {
+    const data = await TrendExpensesService.getTrendExpenses(type,userId);
+    console.log('ddddddddddddddddddd: ',dataTrendExpenses)
     setDataTrendExpenses(data);
   };
 
@@ -53,13 +54,14 @@ export default function ChartCard() {
   }, [user]);
 
   useEffect(() => {
-    fetchTrendExpanses(filter);
+    fetchTrendExpanses(filter,user.userId);
     fetchCompare(filter);
-  }, [filter]);
+  }, [filter,user]);
 
   useEffect(()=>{
-    console.log('dataExpensesHistory: ',dataExpensesHistory)
-  },[dataExpensesHistory])
+    console.log('dataTrendExpenses: ',dataTrendExpenses)
+  },[dataTrendExpenses])
+
   interface Column<T> {
     key: keyof T;
     label: string;
