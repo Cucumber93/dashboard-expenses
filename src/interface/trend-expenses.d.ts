@@ -1,5 +1,5 @@
 export interface ITrendExpenses{
-    datetime: string
+    period: string
     category:string
     totalExpense:string
 }
