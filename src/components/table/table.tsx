@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 interface Column<T> {
   key: keyof T;
   label: string;
@@ -12,6 +14,12 @@ interface TableProps<T> {
  * Generic, reusable table component
  */
 function Table<T extends Record<string, any>>({ columns, data }: TableProps<T>) {
+
+  useEffect(()=>{
+    console.log('data table: ',data)
+    console.log('columns table: ',columns)
+  },[data,columns])
+
   return (
     <div className="rounded-lg shadow-md border border-gray-200">
       {/* ✅ Scrollable container */}
