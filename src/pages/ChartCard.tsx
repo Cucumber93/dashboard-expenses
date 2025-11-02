@@ -60,7 +60,7 @@ export default function ChartCard() {
 
   const columns: Column<Expense>[] = [
     { key: "created_at", label: "Date" },
-    { key: "categoryId", label: "Category" },
+    { key: "categoryName", label: "Category" },
     { key: "name", label: "Name" },
     { key: "amount", label: "Amount" },
   ];
