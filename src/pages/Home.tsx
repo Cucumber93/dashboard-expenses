@@ -8,8 +8,11 @@ function App() {
   return (
     <>
       <Topbar/>
-      <OverviewCard/>
-      <ChartCard/>
+      <div className="mb-10">
+        <OverviewCard/>
+        <ChartCard/>
+      </div>
+      
     </>
   )
 }
