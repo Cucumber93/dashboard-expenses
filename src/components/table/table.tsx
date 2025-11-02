@@ -15,7 +15,7 @@ function Table<T extends Record<string, any>>({ columns, data }: TableProps<T>) 
   return (
     <div className="rounded-lg shadow-md border border-gray-200">
       {/* ✅ Scrollable container */}
-      <div className="overflow-y-auto max-h-[200px] overflow-x-auto">
+      <div className="overflow-y-auto max-h-[300px] overflow-x-auto">
         <table className="min-w-full">
           <thead className="bg-[#0C9AFF] text-white sticky top-0 z-10">
             <tr>
