@@ -19,7 +19,7 @@ export default function Topbar() {
   function DropdownLogout() {
     return (
       <div
-        className="absolute top-full right-0 mt-2 bg-white border border-gray-300 rounded-md shadow-md w-[120px] text-center cursor-pointer hover:bg-gray-100 transition-all"
+        className="absolute top-full right-0 mt-2 bg-white border border-gray-300 rounded-md shadow-md w-[120px] text-gray-300 text-center cursor-pointer hover:bg-gray-100 transition-all"
         onClick={handleLogout}
       >
         Logout
