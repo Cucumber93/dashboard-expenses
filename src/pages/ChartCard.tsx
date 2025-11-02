@@ -39,10 +39,6 @@ export default function ChartCard() {
     setDataTrendExpenses(data);
   };
 
-  useEffect(()=>{
-    console.log('datacompare: ',dataCompare)
-  },[dataCompare])
-
   const handleFilter = (type: string) => {
     setFilter(type);
   };
