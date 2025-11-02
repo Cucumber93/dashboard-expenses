@@ -5,6 +5,14 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 
 export const AuthService = {
+  logout:async()=>{
+    try{
+      await axios.post(`${BASE_URL}/auth/logout`, {}, { withCredentials: true });
+    window.location.href = "/login"; // redirect
+    }catch(error){
+      console.error("❌ Logout Error:", error);
+    }
+  },
   loginLine: async (profile:IProfile) => {
     try {
       const response = await axios.post(
