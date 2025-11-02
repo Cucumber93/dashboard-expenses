@@ -30,20 +30,18 @@ export default function ChartCard() {
     setDataExpensesHistory(data.data)
   }
 
-  const fetchCompare = async (type: string) => {
-    const data = await CompareService.getCompareTrend(type);
+  const fetchCompare = async (type: string,userId:string) => {
+    const data = await CompareService.getCompareTrend(type,userId);
     setDataCompare(data);
   };
   const fetchTrendExpanses = async (type: string,userId:string) => {
     const data = await TrendExpensesService.getTrendExpenses(type,userId);
-    console.log('ddddddddddddddddddd: ',dataTrendExpenses)
     setDataTrendExpenses(data);
   };
 
-  // const fetchExpansesHistory = async () => {
-  //   const data = await ExpensesService.getALLExpenses();
-  //   setDataExpensesHistory(data);
-  // };
+  useEffect(()=>{
+    console.log('datacompare: ',dataCompare)
+  },[dataCompare])
 
   const handleFilter = (type: string) => {
     setFilter(type);
@@ -55,12 +53,9 @@ export default function ChartCard() {
 
   useEffect(() => {
     fetchTrendExpanses(filter,user.userId);
-    fetchCompare(filter);
+    fetchCompare(filter,user.userId);
   }, [filter,user]);
 
-  useEffect(()=>{
-    console.log('dataTrendExpenses: ',dataTrendExpenses)
-  },[dataTrendExpenses])
 
   interface Column<T> {
     key: keyof T;

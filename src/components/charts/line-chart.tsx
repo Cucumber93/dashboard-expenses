@@ -4,7 +4,7 @@ import type { ApexOptions } from "apexcharts";
 import type { ITrendExpenses } from "../../interface/trend-expenses";
 
 interface DataPoint {
-  x: number;
+  x: string; // ✅ เปลี่ยนจาก number → string เพราะใช้ period เป็น label
   y: number;
 }
 
@@ -19,8 +19,8 @@ const ApexChart: React.FC<ILineChart> = ({ data }) => {
     chart: {
       id: "realtime",
       type: "line",
-      height: "100%",   // ✅ ให้เต็ม container
-      width: "100%",    // ✅ ให้เต็ม container
+      height: "100%",
+      width: "100%",
       animations: {
         enabled: true,
         speed: 800,
@@ -31,9 +31,13 @@ const ApexChart: React.FC<ILineChart> = ({ data }) => {
     },
     dataLabels: { enabled: false },
     stroke: { curve: "smooth", width: 2 },
-    // title: { text: "Expenses Trend by Category", align: "left" },
     markers: { size: 4 },
-    xaxis: { type: "datetime", title: { text: "Date / Time" } },
+    // ✅ เปลี่ยน xaxis เป็น category เพื่อใช้ period เป็น label
+    xaxis: {
+      type: "category",
+      title: { text: "Period" },
+      labels: { rotate: -45, hideOverlappingLabels: true },
+    },
     yaxis: { title: { text: "Expense (บาท)" } },
     legend: {
       show: true,
@@ -51,14 +55,14 @@ const ApexChart: React.FC<ILineChart> = ({ data }) => {
       const category = item.category ?? "Unknown";
       if (!grouped[category]) grouped[category] = [];
       grouped[category].push({
-        x: new Date(item.datetime).getTime(),
+        x: item.period, // ✅ ใช้ period เป็น label
         y: Number(item.totalExpense),
       });
     });
 
     const formattedSeries = Object.keys(grouped).map((category) => ({
       name: category,
-      data: grouped[category].sort((a, b) => a.x - b.x),
+      data: grouped[category],
     }));
 
     setSeries(formattedSeries);
