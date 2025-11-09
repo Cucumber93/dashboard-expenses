@@ -22,7 +22,7 @@ export default function Dashboard() {
       <p>UserID: {user.sub}</p>
 
       <button
-        className="mt-5 bg-red-500 text-white px-4 py-2 rounded-lg"
+        className="mt-5 bg-red-500 text-grey-700 px-4 py-2 rounded-lg"
         onClick={() => {
           localStorage.clear()
           window.location.href = "/login"

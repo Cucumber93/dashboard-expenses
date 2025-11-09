@@ -103,7 +103,7 @@ export function OverviewCard() {
         <div>
           <label
             htmlFor="startDay"
-            className="text-sm !text-[#D3D3D3]"
+            className="text-sm !text-gray-500"
           >
             Date: {startDate} - {endDate}
           </label>
@@ -111,7 +111,7 @@ export function OverviewCard() {
         <div className="flex items-center gap-5">
           <label
             htmlFor="startDay"
-            className="text-sm  !text-[#D3D3D3]"
+            className="text-sm  !text-gray-500"
           >
             Date Start
           </label>
