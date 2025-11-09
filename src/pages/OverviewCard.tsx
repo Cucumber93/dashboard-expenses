@@ -11,8 +11,8 @@ export function OverviewCard() {
   const [totalExpenses, setTotalExpenses] = useState<number>(0);
   const [dataBalance, setDataBalance] = useState<number>(0);
   const [selectedStartDay, setSelectedStartDay] = useState<string>("27"); // ✅ state เก็บวันเริ่มต้น
-  const [startDate, setStartDate] = useState<Date>(new Date());
-  const [endDate, setEndDate] = useState<Date>(new Date());
+  const [startDate, setStartDate] = useState<string>('');
+  const [endDate, setEndDate] = useState<string>('');
 
   const overviewData = [
     {
@@ -105,7 +105,7 @@ export function OverviewCard() {
             htmlFor="startDay"
             className="text-sm font-medium text-gray-700"
           >
-            Date: {startDate.toLocaleDateString()} - {endDate.toLocaleDateString()}
+            Date: {startDate} - {endDate}
           </label>
         </div>
         <div>
