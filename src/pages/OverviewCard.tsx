@@ -77,7 +77,7 @@ export function OverviewCard() {
   }, [user]);
 
   return (
-    <div className="grid grid-cols-3 gap-5 ml-10 mr-10 mt-5">
+    <div>
       <div className="flex justify-end gap-2">
         <label htmlFor="startDay" className="text-sm font-medium">
           Date Start
@@ -95,6 +95,7 @@ export function OverviewCard() {
           ))}
         </select>
       </div>
+      <div className="grid grid-cols-3 gap-5 ml-10 mr-10 mt-5">
       {overviewData.map((items, id) => (
         <div key={id} className="bg-[#F2FAFF] rounded-[10px] p-2 pl-5 pr-5">
           <div className="flex justify-between">
@@ -114,5 +115,7 @@ export function OverviewCard() {
         </div>
       ))}
     </div>
+    </div>
+    
   );
 }
