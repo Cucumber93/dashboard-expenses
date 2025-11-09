@@ -76,9 +76,14 @@ const BarChart: React.FC<IBarChartProps> = ({ data}) => {
   };
 
   return (
-    <div className="w-full h-full flex justify-center">
-      <ReactApexChart options={options} series={series} type="bar" height="180%" width="100%" />
-    </div>
+    // <div className="w-full h-full flex justify-center">
+    //   <ReactApexChart options={options} series={series} type="bar" height="180%" width="100%" />
+    // </div>
+    <div className="w-full h-full flex justify-center items-center">
+          <div className="w-full h-full">
+             <ReactApexChart options={options} series={series} type="bar" height="180%" width="100%" />
+          </div>
+        </div>
   );
 };
 
