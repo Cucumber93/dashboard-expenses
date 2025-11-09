@@ -88,7 +88,7 @@ export default function ChartCard() {
 
   return (
     <div className="ml-10 mr-10 mt-5 ">
-      <div className=" rounded-[10px] grid grid-cols-2 gap-5">
+      <div className=" rounded-[10px] grid grid-cols-1 lg:grid-cols-2 gap-5">
         <div className="bg-[#F2FAFF] p-2 pl-5 pr-5">
           <div className="flex justify-between">
             <div className="head-text-costom-style">Trend Expenses</div>

@@ -131,7 +131,7 @@ export function OverviewCard() {
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-5 ml-10 mr-10 mt-5">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 ml-10 mr-10 mt-5">
         {overviewData.map((items, id) => (
           <div key={id} className="bg-[#F2FAFF] rounded-[10px] p-2 pl-5 pr-5">
             <div className="flex justify-between">
