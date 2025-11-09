@@ -49,8 +49,6 @@ export default function ChartCard() {
     setFilterTrendExpense(type);
   }
 
-
-
   const handleFilterCompare =(type:string)=>{
     setFilterCompare(type);
   }
@@ -86,7 +84,7 @@ export default function ChartCard() {
         <div className="bg-[#F2FAFF] p-2 pl-5 pr-5">
           <div className="flex justify-between">
             <div className="head-text-costom-style">Trend Expenses</div>
-            <SelectFilter onFilter={handleFilterTrendExpense} />
+            <SelectFilter onFilter={handleFilterTrendExpense} typeDefault={filterTrendExpense}/>
           </div>
           <div className="mt-3">
             <LineChart data={dataTrendExpenses} />
@@ -95,7 +93,7 @@ export default function ChartCard() {
         <div className="bg-[#F2FAFF] p-2 pl-5 pr-5">
           <div className="flex justify-between">
             <div className="head-text-costom-style">Expenses Ratio</div>
-            <SelectFilter onFilter={handleFilterTrendExpense} />
+            <SelectFilter onFilter={handleFilterTrendExpense} typeDefault={filterTrendExpense}/>
           </div>
           <div className="mt-3">
             <PieChart data={dataTrendExpenses} />
@@ -104,7 +102,7 @@ export default function ChartCard() {
         <div className="bg-[#F2FAFF] p-2 pl-5 pr-5">
           <div className="flex justify-between">
             <div className="head-text-costom-style">Trend Conpare</div>
-            <SelectFilter onFilter={handleFilterCompare} />
+            <SelectFilter onFilter={handleFilterCompare} typeDefault={filterCompare}/>
           </div>
           <div className="mt-3">
             <BarChart data={dataCompare} />
