@@ -3,10 +3,11 @@ import axios from "axios";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 export const BalanceService = {
-  getBalance: async (userId: string) => {
+  getBalance: async (userId: string,startDate:string) => {
     try {
       const response = await axios.post(`${BASE_URL}/balance`, {
-        userId, // ✅ ส่งใน body เหมือนใน Postman
+        userId,
+        startDate
       });
       return response.data;
     } catch (error) {

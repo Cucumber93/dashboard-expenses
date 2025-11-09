@@ -10,6 +10,7 @@ export function OverviewCard() {
   const [totalIncome, setTotalIncome] = useState<number>(0);
   const [totalExpenses, setTotalExpenses] = useState<number>(0);
   const [dataBalance, setDataBalance] = useState<number>(0);
+  const [selectedStartDay, setSelectedStartDay] = useState<string>('27'); // ✅ state เก็บวันเริ่มต้น
 
   const overviewData = [
     {
@@ -64,7 +65,7 @@ export function OverviewCard() {
   const fetchBalance = async () => {
     let data = [];
     if (user && user.userId) {
-      data = await BalanceService.getBalance(user?.userId || "null");
+      data = await BalanceService.getBalance(user?.userId || "null",selectedStartDay);
     }
 
     setDataBalance(data.netBalance);
@@ -76,17 +77,19 @@ export function OverviewCard() {
     fetchBalance();
   }, [user]);
 
+
   return (
     <div>
-      <div className="flex justify-end gap-2">
+      <div className="flex justify-end items-center gap-2 ml-10 mr-10 mt-5">
         <label htmlFor="startDay" className="text-sm font-medium">
           Date Start
         </label>
         <select
+          value={selectedStartDay}
           id="startDay"
           name="startDay"
-          className="border rounded-md p-2 w-32 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          onChange={(e) => console.log("Selected:", e.target.value)} // ✅ เก็บค่าวันที่
+          className="description-text-costom-style text-[#0C9AFF] border border-[#0C9AFF] rounded-[10px] p-1"
+          onChange={(e) => setSelectedStartDay(e.target.value)} // ✅ เก็บค่าวันที่
         >
           {Array.from({ length: 31 }, (_, i) => i + 1).map((day) => (
             <option key={day} value={day}>
