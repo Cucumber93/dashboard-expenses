@@ -21,6 +21,7 @@ export default function ChartCard() {
   const [dataTrendExpenses, setDataTrendExpenses] = useState<ITrendExpenses[]>(
     []
   );
+  const [dataRetioExpenses, setDataRetioExpenses] = useState<ITrendExpenses[]>([]);
   const [dataExpensesHistory, setDataExpensesHistory] = useState<Expense[]>([]);
   const [dataCompare, setDataCompare] = useState<ICompare[]>([]);
   // const [filter, setFilter] = useState<string>("hourly");
@@ -41,6 +42,11 @@ export default function ChartCard() {
     const data = await TrendExpensesService.getTrendExpenses(type,userId);
     setDataTrendExpenses(data);
   };
+
+  const fetchRatioExpense   = async (type: string,userId:string) => {
+    const data = await TrendExpensesService.getTrendExpenses(type,userId);
+    setDataRetioExpenses(data);
+  }
 
   // const handleFilter = (type: string) => {
   //   setFilter(type);
@@ -63,6 +69,7 @@ export default function ChartCard() {
 
   useEffect(() => {
     fetchTrendExpanses(filterTrendExpense,user.userId);
+    fetchRatioExpense(filterRatioExpense,user.userId);
     fetchCompare(filterCompare,user.userId);
   }, [filterTrendExpense,filterCompare,user]);
 
@@ -100,7 +107,7 @@ export default function ChartCard() {
             <SelectFilter onFilter={handleFilterRatioExpense} typeDefault={filterRatioExpense}/>
           </div>
           <div className="mt-3">
-            <PieChart data={dataTrendExpenses} />
+            <PieChart data={dataRetioExpenses} />
           </div>
         </div>
         <div className="bg-[#F2FAFF] p-2 pl-5 pr-5">
