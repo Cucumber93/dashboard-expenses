@@ -25,6 +25,7 @@ export default function ChartCard() {
   const [dataCompare, setDataCompare] = useState<ICompare[]>([]);
   // const [filter, setFilter] = useState<string>("hourly");
   const [filterTrendExpense, setFilterTrendExpense] = useState<string>("hourly");
+  const [filterRatioExpense, setFilterRatioExpense] = useState<string>("monthly");
   const [filterCompare, setFilterCompare] = useState<string>("monthly");
 
   const fetchExpensesHistory = async(userId:string)=>{
@@ -49,6 +50,9 @@ export default function ChartCard() {
     setFilterTrendExpense(type);
   }
 
+  const handleFilterRatioExpense =(type:string)=>{
+    setFilterRatioExpense(type);
+  }
   const handleFilterCompare =(type:string)=>{
     setFilterCompare(type);
   }
@@ -93,7 +97,7 @@ export default function ChartCard() {
         <div className="bg-[#F2FAFF] p-2 pl-5 pr-5">
           <div className="flex justify-between">
             <div className="head-text-costom-style">Expenses Ratio</div>
-            <SelectFilter onFilter={handleFilterTrendExpense} typeDefault={filterTrendExpense}/>
+            <SelectFilter onFilter={handleFilterRatioExpense} typeDefault={filterRatioExpense}/>
           </div>
           <div className="mt-3">
             <PieChart data={dataTrendExpenses} />
