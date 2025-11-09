@@ -23,10 +23,9 @@ export default function ChartCard() {
   );
   const [dataExpensesHistory, setDataExpensesHistory] = useState<Expense[]>([]);
   const [dataCompare, setDataCompare] = useState<ICompare[]>([]);
-  const [filter, setFilter] = useState<string>("hourly");
+  // const [filter, setFilter] = useState<string>("hourly");
   const [filterTrendExpense, setFilterTrendExpense] = useState<string>("hourly");
-  const [filterRatioExpense, setFilterRatioExpense] = useState<string>("hourly");
-  const [filterCompare, setFilterCompare] = useState<string>("hourly");
+  const [filterCompare, setFilterCompare] = useState<string>("monthly");
 
   const fetchExpensesHistory = async(userId:string)=>{
     const data  = await HistoryService.getHistory(userId)
@@ -42,17 +41,15 @@ export default function ChartCard() {
     setDataTrendExpenses(data);
   };
 
-  const handleFilter = (type: string) => {
-    setFilter(type);
-  };
+  // const handleFilter = (type: string) => {
+  //   setFilter(type);
+  // };
 
   const handleFilterTrendExpense =(type:string)=>{
     setFilterTrendExpense(type);
   }
 
-  const handleFilterRatioExpense =(type:string)=>{
-    setFilterRatioExpense(type);
-  }
+
 
   const handleFilterCompare =(type:string)=>{
     setFilterCompare(type);
@@ -63,9 +60,9 @@ export default function ChartCard() {
   }, [user]);
 
   useEffect(() => {
-    fetchTrendExpanses(filter,user.userId);
-    fetchCompare(filter,user.userId);
-  }, [filter,user]);
+    fetchTrendExpanses(filterTrendExpense,user.userId);
+    fetchCompare(filterCompare,user.userId);
+  }, [filterTrendExpense,filterCompare,user]);
 
 
   interface Column<T> {
@@ -98,7 +95,7 @@ export default function ChartCard() {
         <div className="bg-[#F2FAFF] p-2 pl-5 pr-5">
           <div className="flex justify-between">
             <div className="head-text-costom-style">Expenses Ratio</div>
-            <SelectFilter onFilter={handleFilterRatioExpense} />
+            <SelectFilter onFilter={handleFilterTrendExpense} />
           </div>
           <div className="mt-3">
             <PieChart data={dataTrendExpenses} />
