@@ -6,7 +6,7 @@ import { useAuth } from "../context/authContext";
 import { BalanceService } from "../services/balance.service";
 
 export function OverviewCard() {
-  const {user} = useAuth()
+  const { user } = useAuth();
   const [totalIncome, setTotalIncome] = useState<number>(0);
   const [totalExpenses, setTotalExpenses] = useState<number>(0);
   const [dataBalance, setDataBalance] = useState<number>(0);
@@ -62,11 +62,11 @@ export function OverviewCard() {
   }
 
   const fetchBalance = async () => {
-    let data = []
-    if(user && user.userId){
-       data = await BalanceService.getBalance(user?.userId || 'null');
+    let data = [];
+    if (user && user.userId) {
+      data = await BalanceService.getBalance(user?.userId || "null");
     }
-    
+
     setDataBalance(data.netBalance);
     setTotalIncome(data.totalIncome);
     setTotalExpenses(data.totalExpense);
@@ -78,6 +78,23 @@ export function OverviewCard() {
 
   return (
     <div className="grid grid-cols-3 gap-5 ml-10 mr-10 mt-5">
+      <div className="flex justify-end gap-2">
+        <label htmlFor="startDay" className="text-sm font-medium">
+          Date Start
+        </label>
+        <select
+          id="startDay"
+          name="startDay"
+          className="border rounded-md p-2 w-32 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          onChange={(e) => console.log("Selected:", e.target.value)} // ✅ เก็บค่าวันที่
+        >
+          {Array.from({ length: 31 }, (_, i) => i + 1).map((day) => (
+            <option key={day} value={day}>
+              {day}
+            </option>
+          ))}
+        </select>
+      </div>
       {overviewData.map((items, id) => (
         <div key={id} className="bg-[#F2FAFF] rounded-[10px] p-2 pl-5 pr-5">
           <div className="flex justify-between">
