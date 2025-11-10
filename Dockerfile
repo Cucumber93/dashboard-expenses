@@ -24,7 +24,7 @@ FROM nginx:stable-alpine
 RUN rm /etc/nginx/conf.d/default.conf
 
 # คัดลอก config ใหม่ (ไม่มี SSL)
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY default.conf /etc/nginx/conf.d/default.conf
 
 # คัดลอกไฟล์ build จาก stage ก่อนหน้า
 COPY --from=builder /app/dist /usr/share/nginx/html
