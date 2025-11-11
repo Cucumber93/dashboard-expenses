@@ -9,21 +9,33 @@ export default function Line() {
 
   useEffect(() => {
     const initLiff = async () => {
-      await liff.init({ liffId: "2008277464-bBvaglGD" });
+      try {
+        await liff.init({
+          liffId: "2008277464-bBvaglGD",
+          withLoginOnExternalBrowser: true, // ✅ ต้องใส่ในหน้านี้!
+        });
 
-      // 👇 ตรงนี้ liff.isLoggedIn() จะเป็น true แล้ว เพราะ LINE redirect กลับมาหลัง login เสร็จ
-      if (liff.isLoggedIn()) {
+        if (!liff.isLoggedIn()) {
+          liff.login({ redirectUri: window.location.href });
+          return;
+        }
+
         const profile = await liff.getProfile();
-        await AuthService.loginLine(profile as IProfile);
+        const res = await AuthService.loginLine(profile as IProfile);
+        console.log("Backend response:", res);
+
         navigate("/");
-      } else {
-        // กันกรณีเข้าหน้านี้ตรง ๆ โดยไม่ login
-        liff.login({ redirectUri: window.location.href });
+      } catch (err) {
+        console.error("LIFF init error:", err);
       }
     };
 
     initLiff();
   }, [navigate]);
 
-  return <div>กำลังเข้าสู่ระบบด้วย LINE...</div>;
+  return (
+    <div style={{ textAlign: "center", marginTop: 100 }}>
+      <h3>กำลังเข้าสู่ระบบด้วย LINE...</h3>
+    </div>
+  );
 }
