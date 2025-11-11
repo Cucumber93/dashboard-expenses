@@ -1,32 +1,29 @@
-import liff from "@line/liff";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import liff from "@line/liff";
 import { AuthService } from "../../services/auth.service";
 import type { IProfile } from "../../interface/line";
-import { useNavigate } from "react-router-dom";
 
-const Line = () => {
+export default function Line() {
   const navigate = useNavigate();
+
   useEffect(() => {
-    liff.init({ liffId: "2008277464-bBvaglGD" }).then(() => {
-      //code
-      handleLogin();
-    });
-  }, []);
+    const initLiff = async () => {
+      await liff.init({ liffId: "2008277464-bBvaglGD" });
 
-  const handleLogin = async () => {
-    try {
-      const profile = await liff.getProfile();
-      await AuthService.loginLine(profile as IProfile)
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => console.log(err));
+      // 👇 ตรงนี้ liff.isLoggedIn() จะเป็น true แล้ว เพราะ LINE redirect กลับมาหลัง login เสร็จ
+      if (liff.isLoggedIn()) {
+        const profile = await liff.getProfile();
+        await AuthService.loginLine(profile as IProfile);
         navigate("/");
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  return <div>Line</div>;
-};
+      } else {
+        // กันกรณีเข้าหน้านี้ตรง ๆ โดยไม่ login
+        liff.login({ redirectUri: window.location.href });
+      }
+    };
 
-export default Line;
+    initLiff();
+  }, [navigate]);
+
+  return <div>กำลังเข้าสู่ระบบด้วย LINE...</div>;
+}
