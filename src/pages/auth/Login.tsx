@@ -3,6 +3,7 @@ import { useEffect } from "react";
 
 export default function Login() {
   useEffect(() => {
+    localStorage.clear();
     liff.init({ liffId: "2008277464-bBvaglGD" });
   }, []);
 
