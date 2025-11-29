@@ -25,7 +25,7 @@ export default function Line() {
         const res = await AuthService.loginLine(profile as IProfile);
         console.log("Backend response:", res);
 
-        navigate("/");
+        // navigate("/");
       } catch (err) {
         console.error("LIFF init error:", err);
       }
