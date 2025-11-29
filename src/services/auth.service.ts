@@ -14,7 +14,7 @@ export const AuthService = {
       pictureUrl: profile.pictureUrl,
     });
 
-    // localStorage.setItem("auth_token", response.data.token);
+    localStorage.setItem("auth_token", response.data.token);
     return response.data;
   },
 
