@@ -1,48 +1,25 @@
-import axios from "axios";
 import type { IProfile } from "../interface/line";
-
-const BASE_URL = import.meta.env.VITE_BASE_URL;
-
+import api from "./api";
 
 export const AuthService = {
-  logout:async()=>{
-    try{
-      await axios.post(`${BASE_URL}/auth/logout`, {}, { withCredentials: true });
-    window.location.href = "/login"; // redirect
-    }catch(error){
-      console.error("❌ Logout Error:", error);
-    }
+  logout: async () => {
+    localStorage.removeItem("auth_token");
+    window.location.href = "/login";
   },
-  loginLine: async (profile:IProfile) => {
-    try {
-      const response = await axios.post(
-        `${BASE_URL}/auth/login-line`,
-        {
-          userId: profile.userId,
-          displayName: profile.displayName,
-          pictureUrl: profile.pictureUrl,
-        },
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true, // ✅ ต้องใช้ "withCredentials" (ไม่ใช่ credentials)
-        }
-      );
 
-      return response.data;
-    } catch (err) {
-      console.error("❌ Login Error:", err);
-    }
+  loginLine: async (profile: IProfile) => {
+    const response = await api.post("/auth/login-line", {
+      userId: profile.userId,
+      displayName: profile.displayName,
+      pictureUrl: profile.pictureUrl,
+    });
+
+    localStorage.setItem("auth_token", response.data.token);
+    return response.data;
   },
-  getTokenCookie: async()=>{
-    try{
-      const response = await axios.get(
-        `${BASE_URL}/auth/profile`,
-        {withCredentials: true}
-      )
 
-      return response
-    }catch(error){
-      console.log(error)
-    }
-  }
+  getProfile: async () => {
+    const response = await api.get("/auth/profile");
+    return response.data;
+  },
 };
