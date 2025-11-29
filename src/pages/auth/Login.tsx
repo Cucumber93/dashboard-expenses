@@ -14,7 +14,7 @@ export default function Login() {
   };
 
   return (
-    <div style={{ padding: 40 }}>
+    <div  className="pr-5 pl-5 p-2 text-[#ffffff]">
       <button onClick={handleLogin}>Login with LINE</button>
     </div>
   );

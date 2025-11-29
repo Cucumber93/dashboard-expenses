@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
-import { AuthService } from "../services/auth.service";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -12,15 +11,11 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
 
   useEffect(() => {
     const verifyAuth = async () => {
-      try {
-        const hasAuth = await AuthService.getTokenCookie();
-        setIsLoggedIn(!!hasAuth);
-      } catch {
-        setIsLoggedIn(false);
-      } finally {
-        setChecking(false);
-      }
+      const token = localStorage.getItem("auth_token");
+      setIsLoggedIn(!!token);
+      setChecking(false);
     };
+
     verifyAuth();
   }, []);
 
@@ -29,3 +24,4 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
 
   return <>{children}</>;
 }
+
