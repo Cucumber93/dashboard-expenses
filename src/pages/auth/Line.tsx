@@ -58,6 +58,7 @@ export default function Line() {
   const handleLogin = async()=>{
     try{
       const profile = await liff.getProfile()
+      console.log('profile: ',profile)
       await AuthService.loginLine(profile as IProfile)
       .then(res=>{
         console.log('res: ',res)
