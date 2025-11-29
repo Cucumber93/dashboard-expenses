@@ -14,6 +14,7 @@ export default function Login() {
   // };
 
   const handleLogin = () => {
+    console.log('dddddd')
     try{
       liff.login()
     }catch(err){
