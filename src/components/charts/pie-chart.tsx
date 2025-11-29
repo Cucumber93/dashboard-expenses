@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import ReactApexChart from "react-apexcharts";
 import type { ApexOptions } from "apexcharts";
 import type { ITrendExpenses } from "../../interface/trend-expenses";
@@ -25,9 +25,6 @@ const PieChart: React.FC<IPieChart> = ({ data }) => {
     return { labels, series };
   }, [data]);
 
-  useEffect(() => {
-    console.log("📊 Pie Data:", { labels, series });
-  }, [labels, series]);
 
   // ✅ Chart options
   const options: ApexOptions = {
