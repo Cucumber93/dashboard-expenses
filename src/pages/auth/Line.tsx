@@ -15,17 +15,17 @@ export default function Line() {
           withLoginOnExternalBrowser: true, // ✅ ต้องใส่ในหน้านี้!
         });
 
-        // if (!liff.isLoggedIn()) {
-        //   liff.login({ redirectUri: window.location.href });
-        //   return;
-        // }
+        if (!liff.isLoggedIn()) {
+          liff.login({ redirectUri: window.location.href });
+          return;
+        }
         console.log('is logged in: ', liff.isLoggedIn())
         const profile = await liff.getProfile();
         console.log('profile: ',profile)
         const res = await AuthService.loginLine(profile as IProfile);
         console.log("Backend response:", res);
 
-        // navigate("/");
+        navigate("/");
       } catch (err) {
         console.error("LIFF init error:", err);
       }
