@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import liff from "@line/liff";
-import { AuthService } from "../../services/auth.service";
-import type { IProfile } from "../../interface/line";
+// import { AuthService } from "../../services/auth.service";
+// import type { IProfile } from "../../interface/line";
 
 export default function Line() {
   const navigate = useNavigate();
@@ -22,8 +22,8 @@ export default function Line() {
         console.log('is logged in: ', liff.isLoggedIn())
         const profile = await liff.getProfile();
         console.log('profile: ',profile)
-        const res = await AuthService.loginLine(profile as IProfile);
-        console.log("Backend response:", res);
+        // const res = await AuthService.loginLine(profile as IProfile);
+        // console.log("Backend response:", res);
 
         // navigate("/");
       } catch (err) {
