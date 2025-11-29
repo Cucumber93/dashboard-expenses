@@ -49,6 +49,7 @@ export default function Line() {
   // }, [navigate]);
 
   useEffect(()=>{
+    console.log('test...')
     liff.init({liffId:'2008277464-bBvaglGD'})
     .then(()=>{
       handleLogin()
