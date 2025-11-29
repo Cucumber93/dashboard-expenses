@@ -15,10 +15,10 @@ export default function Line() {
           withLoginOnExternalBrowser: true, // ✅ ต้องใส่ในหน้านี้!
         });
 
-        if (!liff.isLoggedIn()) {
-          liff.login({ redirectUri: window.location.href });
-          return;
-        }
+        // if (!liff.isLoggedIn()) {
+        //   liff.login({ redirectUri: window.location.href });
+        //   return;
+        // }
         console.log('is logged in: ', liff.isLoggedIn())
         const profile = await liff.getProfile();
         console.log('profile: ',profile)
