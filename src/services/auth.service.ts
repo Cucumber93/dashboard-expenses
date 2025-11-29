@@ -7,7 +7,7 @@ export const AuthService = {
     window.location.href = "/login";
   },
 
-  loginLine: async (profile:IProfile) => {
+  loginLine: async (profile: IProfile) => {
     const response = await api.post("/auth/login-line", {
       userId: profile.userId,
       displayName: profile.displayName,
@@ -21,5 +21,5 @@ export const AuthService = {
   getProfile: async () => {
     const response = await api.get("/auth/profile");
     return response.data;
-  }
+  },
 };

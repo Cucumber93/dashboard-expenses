@@ -22,7 +22,22 @@ export default function Line() {
 
         const profile = await liff.getProfile();
         const res = await AuthService.loginLine(profile as IProfile);
+
         console.log("Backend response:", res);
+
+        // ❗ เช็คว่ามี token ไหม
+        if (!res?.token) {
+          console.error("❌ Token not returned from backend");
+          return;
+        }
+
+        // ❗ รอให้ localStorage เขียน token เสร็จ
+        await new Promise((resolve) => setTimeout(resolve, 200));
+
+        console.log(
+          "TOKEN IN LOCALSTORAGE:",
+          localStorage.getItem("auth_token")
+        );
 
         navigate("/");
       } catch (err) {
