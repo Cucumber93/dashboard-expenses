@@ -56,7 +56,7 @@ const ApexChart: React.FC<ILineChart> = ({ data }) => {
       if (!grouped[category]) grouped[category] = [];
       grouped[category].push({
         x: item.period, // ✅ ใช้ period เป็น label
-        y: Number(item.totalExpense),
+        y: Number(item.grandTotal),
       });
     });
 

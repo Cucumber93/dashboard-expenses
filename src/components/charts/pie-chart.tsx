@@ -16,7 +16,7 @@ const PieChart: React.FC<IPieChart> = ({ data }) => {
     data.forEach((item) => {
       const category = item.category ?? "Unknown";
       if (!totalByCategory[category]) totalByCategory[category] = 0;
-      totalByCategory[category] += Number(item.totalExpense);
+      totalByCategory[category] += Number(item.grandTotal);
     });
 
     const labels = Object.keys(totalByCategory);
