@@ -15,4 +15,13 @@ export const HistoryService = {
       throw error;
     }
   },
+  getHistoryByMonth: async (userId: string, month: number, year: number) => {
+    try{
+      const response = await axios.post(`${BASE_URL}/history/get-by-month/${month}/${year}?userId=${userId}`);
+      return response.data; 
+    }catch(error){
+      console.error("Error fetching history by month; ", error);
+      throw error;
+    }
+  }
 };

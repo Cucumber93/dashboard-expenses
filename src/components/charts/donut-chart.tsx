@@ -27,7 +27,7 @@ export default function DonutChart({
         className="flex items-center justify-center text-gray-400"
         style={{ height }}
       >
-        ไม่มีข้อมูล
+        No data available
       </div>
     );
   }
