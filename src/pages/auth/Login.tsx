@@ -5,6 +5,7 @@ import type { IProfile } from "../../interface/line";
 import { AuthService } from "../../services/auth.service";
 export default function Login() {
   const navigate = useNavigate();
+  const isDev =false
   useEffect(() => {
     localStorage.clear();
     liff.init({ liffId: "2008277464-bBvaglGD" });
@@ -35,12 +36,13 @@ export default function Login() {
       <button onClick={handleLogin} className="bg-black">
         Login with LINE
       </button>
-      <button
+      { isDev && <button
           onClick={handleDevLogin}
           className="bg-green-600 px-4 py-2 rounded"
         >
           Dev Login (No LINE)
-        </button>
+        </button>}
+      
     </div>
   );
 }
