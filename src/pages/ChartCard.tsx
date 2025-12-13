@@ -122,7 +122,7 @@ export default function ChartCard() {
     { key: "date", label: "Date" },
     { key: "category", label: "Category" },
     { key: "name", label: "Name" },
-    { key: "amount", label: "Amount" },
+    { key: "amount", label: "Amount (Baht)" },
   ];
 
   const optionsPeriodCompare = [
