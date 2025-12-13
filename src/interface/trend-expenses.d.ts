@@ -1,7 +1,7 @@
 export interface ITrendExpenses{
     period: string
     category:string
-    totalExpense:string
+    grandTotal:string
 }
 
 export interface ICompare{

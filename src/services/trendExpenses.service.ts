@@ -14,4 +14,13 @@ export const TrendExpensesService  = {
             throw error;
         }
     },
+    getTrendExpensesByMonth:async(userId:string,month:number,year:number)=>{
+        try{
+            const response = await axios.post(`${BASE_URL}/trend-expenses/bymonth/${month}/${year}?userId=${userId}`);
+            return response.data;
+        }catch(error){
+            console.error('Error feteching trend expenses by month:',error);
+            throw error;
+        }
+    }
 }
